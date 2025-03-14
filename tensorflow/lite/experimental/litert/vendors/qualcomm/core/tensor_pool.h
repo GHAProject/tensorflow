@@ -7,16 +7,14 @@
 #include <functional>
 #include <list>
 
-#include "third_party/qairt/latest/include/QNN/QnnTypes.h"
 #include "tensorflow/lite/experimental/litert/vendors/qualcomm/core/wrappers/tensor_wrapper.h"
+#include "third_party/qairt/latest/include/QNN/QnnTypes.h"
 
 namespace qnn {
 
 class TensorPool {
  public:
   TensorPool();
-
-  TensorPool(std::function<void(TensorWrapper&)> tensor_callback);
 
   TensorWrapper& CreateInputTensor(
       Qnn_DataType_t data_type,
@@ -47,8 +45,17 @@ class TensorPool {
   TensorWrapper& CloneStaticTensorFrom(const TensorWrapper& src,
                                        Qnn_DataType_t data_type);
 
+  TensorWrapper& CloneStaticTensorFrom(
+      const TensorWrapper& src, const std::vector<std::uint32_t>& dimentions);
+
+  template <typename UnaryFunc>
+  void ForEach(UnaryFunc f) {
+    for (auto& tensor_wrapper : tensor_wrappers_) {
+      f(tensor_wrapper);
+    }
+  }
+
  private:
-  std::function<void(TensorWrapper&)> tensor_callback_{};
   std::list<TensorWrapper> tensor_wrappers_{};
 };
 
