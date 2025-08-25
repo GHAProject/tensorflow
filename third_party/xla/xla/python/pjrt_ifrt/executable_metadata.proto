@@ -22,21 +22,27 @@ import "xla/python/ifrt/layout.proto";
 import "xla/python/ifrt/shape.proto";
 import "xla/xla_data.proto";
 
+message ExecutableRuntimeAbiVersion {
+  // Serialization and descerialization version.
+  int32 version_number = 1;
+  // ID that identifies the platform (CPU/GPU/TPU). This corresponds to
+  // xla::PjRtPlatformId.
+  fixed64 platform_id = 2;
+  // ID that identifies the runtime this version is for (e.g. XLA)
+  string runtime_id = 3;
+  // Opaque string that identifies the runtime ABI version.
+  bytes runtime_abi_version = 4;
+}
+
 message SerializedXlaExecutableMetadata {
+  reserved 1, 3, 4;
+
   // IFRT version
-  int32 ifrt_version_number = 1;
+  ExecutableRuntimeAbiVersion executable_version = 9;
 
   // IFRT runtime that created this executable. Loading executables across
   // runtimes are supported.
   string runtime_name = 2;
-
-  // ID that identifies the platform (CPU/GPU/TPU). This corresponds to
-  // xla::PjRtPlatformId.
-  fixed64 platform_id = 3;
-
-  // ABI version of the runtime that this executable is compatible with.
-  // Note: Also present within the serialized executable for PjRt TPU.
-  bytes runtime_abi_version = 4;
 
   // Name of the computation that this executable represents. This is not a
   // unique identifier of the computation. Only to be used for debugging and

@@ -907,6 +907,11 @@ class NanoExecutable final
     return absl::UnimplementedError("Fingerprint is not implemented.");
   }
 
+  absl::StatusOr<std::string> runtime_executable_version() const override {
+    return absl::UnimplementedError(
+        "runtime_executable_version is not implemented.");
+  }
+
   absl::StatusOr<std::string> Serialize() const override {
     return absl::UnimplementedError("Serialize is not implemented.");
   }
@@ -1178,6 +1183,17 @@ class NanoCompiler final
       std::unique_ptr<ifrt::Program> program, const ifrt::Topology& topology,
       std::unique_ptr<ifrt::CompileOptions> options) override {
     return absl::UnimplementedError("Partial compilation is not implemented.");
+  }
+
+  absl::StatusOr<std::string> runtime_executable_version(
+      const xla::ifrt::CompileOptions* options) const override {
+    return absl::UnimplementedError("Not implemented");
+  }
+
+  absl::Status IsSerializedExecutableCompatible(
+      absl::string_view ifrt_executable_version,
+      const xla::ifrt::CompileOptions* options) const override {
+    return absl::UnimplementedError("Not implemented");
   }
 
   absl::StatusOr<ifrt::LoadedExecutableRef> DeserializeLoadedExecutable(

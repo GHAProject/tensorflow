@@ -27,12 +27,14 @@ limitations under the License.
 #include "llvm/Support/ExtensibleRTTI.h"
 #include "xla/pjrt/pjrt_executable.h"
 #include "xla/python/ifrt/client.h"
+#include "xla/python/ifrt/compiler.h"
 #include "xla/python/ifrt/device.h"
 #include "xla/python/ifrt/device_list.h"
 #include "xla/python/ifrt/serdes.h"
 #include "xla/python/pjrt_ifrt/xla_compiler.pb.h"
 #include "xla/service/computation_placer.h"
 #include "xla/tsl/platform/statusor.h"
+#include "xla/util.h"
 
 namespace xla {
 namespace ifrt {
@@ -92,6 +94,14 @@ bool register_xla_compile_options_serdes = ([]{
 
 char XlaCompileOptions::ID = 0;
 char XlaDeserializeExecutableOptions::ID = 0;
+
+absl::StatusOr<const XlaCompileOptions*> GetXlaCompileOptions(
+    const CompileOptions* options) {
+  if (!llvm::isa<XlaCompileOptions>(options)) {
+    return xla::InvalidArgument("options must be XlaCompileOptions");
+  }
+  return static_cast<const XlaCompileOptions*>(options);
+}
 
 absl::StatusOr<std::unique_ptr<XlaCompileOptions>> GetXlaCompileOptions(
     std::unique_ptr<CompileOptions> options) {

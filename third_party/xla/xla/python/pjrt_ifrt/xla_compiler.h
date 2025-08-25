@@ -100,6 +100,8 @@ struct XlaDeserializeExecutableOptions
 // Gets `xla::ifrt::XlaCompileOptions` from `xla::ifrt::CompileOptions`.
 absl::StatusOr<std::unique_ptr<XlaCompileOptions>> GetXlaCompileOptions(
     std::unique_ptr<CompileOptions> options);
+absl::StatusOr<const XlaCompileOptions*> GetXlaCompileOptions(
+    const CompileOptions* options);
 
 // Gets `xla::ifrt::XlaDeserializeExecutableOptions` from
 // `xla::ifrt::DeserializeExecutableOptions`.

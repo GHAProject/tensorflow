@@ -124,6 +124,38 @@ xla_cc_test(
     ],
 )
 
+cc_library(
+    name = "executable_version",
+    srcs = ["executable_version.cc"],
+    hdrs = ["executable_version.h"],
+    compatible_with = get_compatible_with_portable(),
+    deps = [
+        ":executable_metadata_proto_cc",
+        "//xla/python/ifrt:serdes",
+        "@com_google_absl//absl/status:statusor",
+        "@llvm-project//llvm:Support",
+    ],
+)
+
+cc_library(
+    name = "executable_version_serdes",
+    srcs = ["executable_version_serdes.cc"],
+    compatible_with = get_compatible_with_portable(),
+    deps = [
+        ":executable_metadata_proto_cc",
+        ":executable_version",
+        "//xla/python/ifrt:serdes",
+        "//xla/python/ifrt:serdes_version",
+        "//xla/tsl/platform:statusor",
+        "@com_google_absl//absl/status",
+        "@com_google_absl//absl/status:statusor",
+        "@com_google_absl//absl/strings",
+        "@com_google_absl//absl/strings:string_view",
+        "@llvm-project//llvm:Support",
+    ],
+    alwayslink = True,
+)
+
 tf_proto_library(
     name = "executable_metadata_proto",
     srcs = ["executable_metadata.proto"],
@@ -270,6 +302,7 @@ cc_library(
     compatible_with = get_compatible_with_portable(),
     deps = [
         ":basic_string_array",
+        ":executable_version",
         ":pjrt_attribute_map_util",
         ":pjrt_dtype",
         ":transfer_server_interface",

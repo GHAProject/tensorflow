@@ -262,6 +262,10 @@ class PjRtLoadedExecutable final
 
   absl::StatusOr<std::optional<std::string>> Fingerprint() const override;
 
+  absl::StatusOr<std::string> runtime_executable_version() const override {
+    return absl::UnimplementedError("Not implemented");
+  }
+
   absl::StatusOr<std::string> Serialize() const override;
 
   int num_devices() const override {

@@ -158,6 +158,10 @@ class LoadedExecutable
   // Returns a fingerprint of this executable.
   virtual absl::StatusOr<std::optional<std::string>> Fingerprint() const = 0;
 
+  // Returns the version for the underlying runtime thise executable is
+  // compatible with.
+  virtual absl::StatusOr<std::string> runtime_executable_version() const = 0;
+
   // Serializes this executable into a string. The compatibility of the
   // serialized executable is implementation-specific.
   virtual absl::StatusOr<std::string> Serialize() const = 0;

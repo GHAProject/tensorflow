@@ -171,6 +171,17 @@ class CompileOnlyIfrtCompiler final
     return Unimplemented("Compile not implemented.");
   }
 
+  absl::StatusOr<std::string> runtime_executable_version(
+      const xla::ifrt::CompileOptions* options) const override {
+    return absl::UnimplementedError("Not implemented");
+  }
+
+  absl::Status IsSerializedExecutableCompatible(
+      absl::string_view ifrt_executable_version,
+      const xla::ifrt::CompileOptions* options) const override {
+    return absl::UnimplementedError("Not implemented");
+  }
+
   absl::StatusOr<ifrt::LoadedExecutableRef> DeserializeLoadedExecutable(
       absl::string_view serialized,
       std::unique_ptr<ifrt::DeserializeExecutableOptions> options) override {

@@ -17,6 +17,7 @@ limitations under the License.
 #define XLA_PYTHON_IFRT_COMPILER_H_
 
 #include <memory>
+#include <string>
 #include <utility>
 
 #include "absl/status/status.h"
@@ -69,6 +70,17 @@ class Compiler : public llvm::RTTIExtends<Compiler, llvm::RTTIRoot> {
   virtual absl::StatusOr<LoadedExecutableRef> CompileAndLoad(
       std::unique_ptr<Program> program,
       std::unique_ptr<CompileOptions> options) = 0;
+
+  // Returns the version for the underlying runtime an executable compiled with
+  // options would be compatible with.
+  virtual absl::StatusOr<std::string> runtime_executable_version(
+      const xla::ifrt::CompileOptions* options) const = 0;
+
+  // Check if an executable serialized at the given runtime version would be
+  // compatible with this client with these compiler options.
+  virtual absl::Status IsSerializedExecutableCompatible(
+      absl::string_view ifrt_executable_version,
+      const xla::ifrt::CompileOptions* options) const = 0;
 
   // Deserializes a serialized executable as produced by
   // `LoadedExecutable::Serialize()`. The compatibility of `serialized` is

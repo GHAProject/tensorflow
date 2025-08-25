@@ -18,6 +18,7 @@ limitations under the License.
 
 #include <memory>
 
+#include "absl/status/status.h"
 #include "absl/status/statusor.h"
 #include "absl/strings/string_view.h"
 #include "llvm/Support/ExtensibleRTTI.h"
@@ -25,6 +26,7 @@ limitations under the License.
 #include "xla/python/ifrt/executable.h"
 #include "xla/python/ifrt/program.h"
 #include "xla/python/ifrt/topology.h"
+#include "xla/python/pjrt_ifrt/executable_version.h"
 
 namespace xla {
 namespace ifrt {
@@ -50,6 +52,17 @@ class PjRtCompiler final : public llvm::RTTIExtends<PjRtCompiler, Compiler> {
   absl::StatusOr<ExecutableRef> Compile(
       std::unique_ptr<Program> program, const Topology& topology,
       std::unique_ptr<CompileOptions> options) override;
+
+  absl::StatusOr<std::string> runtime_executable_version(
+      const xla::ifrt::CompileOptions* options) const override {
+    return absl::UnimplementedError("Not implemented");
+  }
+
+  absl::Status IsSerializedExecutableCompatible(
+      absl::string_view ifrt_executable_version,
+      const xla::ifrt::CompileOptions* options) const override {
+    return absl::UnimplementedError("Not implemented");
+  }
 
   absl::StatusOr<LoadedExecutableRef> DeserializeLoadedExecutable(
       absl::string_view serialized,
