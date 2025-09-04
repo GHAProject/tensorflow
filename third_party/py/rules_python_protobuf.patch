@@ -1,0 +1,44 @@
+diff --git a/internal_dev_deps.bzl b/internal_dev_deps.bzl
+index e6ade403..b99aba29 100644
+--- a/internal_dev_deps.bzl
++++ b/internal_dev_deps.bzl
+@@ -188,12 +188,12 @@ def rules_python_internal_deps():
+         ],
+     )
+ 
+-    http_archive(
+-        name = "com_google_protobuf",
+-        sha256 = "23082dca1ca73a1e9c6cbe40097b41e81f71f3b4d6201e36c134acc30a1b3660",
+-        url = "https://github.com/protocolbuffers/protobuf/releases/download/v29.0-rc2/protobuf-29.0-rc2.zip",
+-        strip_prefix = "protobuf-29.0-rc2",
+-    )
++    #http_archive(
++    #    name = "com_google_protobuf",
++    #    sha256 = "23082dca1ca73a1e9c6cbe40097b41e81f71f3b4d6201e36c134acc30a1b3660",
++    #    url = "https://github.com/protocolbuffers/protobuf/releases/download/v29.0-rc2/protobuf-29.0-rc2.zip",
++    #    strip_prefix = "protobuf-29.0-rc2",
++    #)
+ 
+     # Needed for stardoc
+     http_archive(
+diff --git a/python/private/py_repositories.bzl b/python/private/py_repositories.bzl
+index 10bc0663..5f442a65 100644
+--- a/python/private/py_repositories.bzl
++++ b/python/private/py_repositories.bzl
+@@ -67,10 +67,10 @@ def py_repositories():
+     # Needed by rules_cc, triggered by @rules_java_prebuilt in Bazel by using @rules_cc//cc:defs.bzl
+     # NOTE: This name must be com_google_protobuf until Bazel drops WORKSPACE
+     # support; Bazel itself has references to com_google_protobuf.
+-    http_archive(
+-        name = "com_google_protobuf",
+-        sha256 = "23082dca1ca73a1e9c6cbe40097b41e81f71f3b4d6201e36c134acc30a1b3660",
+-        url = "https://github.com/protocolbuffers/protobuf/releases/download/v29.0-rc2/protobuf-29.0-rc2.zip",
+-        strip_prefix = "protobuf-29.0-rc2",
+-    )
++    #http_archive(
++    #    name = "com_google_protobuf",
++    #    sha256 = "23082dca1ca73a1e9c6cbe40097b41e81f71f3b4d6201e36c134acc30a1b3660",
++    #    url = "https://github.com/protocolbuffers/protobuf/releases/download/v29.0-rc2/protobuf-29.0-rc2.zip",
++    #    strip_prefix = "protobuf-29.0-rc2",
++    #)
+     pypi_deps()

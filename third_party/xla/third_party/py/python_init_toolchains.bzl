@@ -6,17 +6,23 @@ load(
     "HERMETIC_PYTHON_SHA256",
     "HERMETIC_PYTHON_URL",
     "HERMETIC_PYTHON_VERSION",
-    "HERMETIC_PYTHON_VERSION_KIND",
+    # "HERMETIC_PYTHON_VERSION_KIND",
 )
 load("@rules_python//python:repositories.bzl", "python_register_toolchains")
 load("@rules_python//python:versions.bzl", "MINOR_MAPPING", "PLATFORMS")
+#load(
+#    "//third_party/remote_config:common.bzl",
+#    "get_host_environ",
+#)
+
+def _get_toolchain_name_per_python_version(name):
+    return "{}_{}".format(name, HERMETIC_PYTHON_VERSION.replace(".", "_"))
 
 def python_init_toolchains(name = "python", python_version = None, **kwargs):
     """Register hermetic python toolchains.
 
     Args:
-        name: name of the toolchain, "python" by default (it is strongly
-          recommended to rely on the default).
+        name: name of the toolchain, "python" by default.
         python_version: version of the python to register; if set it will bypass
           kwargs to underlying python_register_toolchains as is (manual
           configuration), otherwise it will automatically configure toolchains
@@ -27,7 +33,7 @@ def python_init_toolchains(name = "python", python_version = None, **kwargs):
 
     if python_version:
         python_register_toolchains(
-            name = name,
+            name = get_toolchain_name_per_version(name),
             python_version = python_version,
             **kwargs
         )
@@ -44,7 +50,7 @@ def python_init_toolchains(name = "python", python_version = None, **kwargs):
                 sha256s[platform] = HERMETIC_PYTHON_SHA256
 
         python_register_toolchains(
-            name = name,
+            name = _get_toolchain_name_per_python_version(name),
             base_url = url_components[0] + "://",
             ignore_root_user_error = True,
             python_version = tool_version,
@@ -59,8 +65,22 @@ def python_init_toolchains(name = "python", python_version = None, **kwargs):
         )
     elif HERMETIC_PYTHON_VERSION in MINOR_MAPPING:
         python_register_toolchains(
-            name = name,
+            name = _get_toolchain_name_per_python_version(name),
             ignore_root_user_error = True,
             python_version = HERMETIC_PYTHON_VERSION,
-            python_version_kind = HERMETIC_PYTHON_VERSION_KIND,
+            # python_version_kind = HERMETIC_PYTHON_VERSION_KIND,
         )
+
+#def _python_alias_repository_impl(repository_ctx):
+#    build_content = """
+#alias(
+#    name = "python",
+#    actual = ":python_{}".format(HERMETIC_PYTHON_VERSION.replace(".", "_")),
+#)
+#""".format(HERMETIC_PYTHON_VERSION.replace(".", "_"))
+#
+#    repository_ctx.file("BUILD", "")
+#
+#python_alias_repository = repository_rule(
+#    implementation = _python_alias_repository_impl,
+#)
