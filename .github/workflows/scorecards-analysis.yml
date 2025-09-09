@@ -22,7 +22,7 @@ on:
   # https://github.com/ossf/scorecard/blob/main/docs/checks.md#maintained
 
   push:
-    branches: [ "*" ]
+    branches: [ "master" ]
 
 # Declare default permissions as read only.
 permissions: read-all
