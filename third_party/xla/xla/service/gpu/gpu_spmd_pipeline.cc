@@ -79,9 +79,6 @@ void AddSPMDPasses(
   spmd_simplify.AddPass<WhileLoopConstantSinking>();
   spmd_simplify.AddPass<WhileLoopSimplifier>();
 
-  ReshapeMoverOptions reshape_mover_options;
-  reshape_mover_options.reshape_of_1d_broadcast_is_cheap = true;
-  spmd_simplify.AddPass<ReshapeMover>(reshape_mover_options);
   // Run AlgebraicSimplifier directly before HloConstantFolding, because we
   // need to simplify DynamicSlice(Broadcast) away. Constant folding of
   // DynamicSlice can be quite costly, as the whole operand will be evaluated.
