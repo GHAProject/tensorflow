@@ -923,9 +923,6 @@ absl::Status RunOptimizationPasses(
     pipeline.AddPass<WhileLoopSimplifier>();
     pipeline.AddPass<SliceSinker>();
 
-    ReshapeMoverOptions reshape_mover_options;
-    reshape_mover_options.reshape_of_1d_broadcast_is_cheap = true;
-    pipeline.AddPass<ReshapeMover>(reshape_mover_options);
     pipeline.AddPass<HloConstantFolding>();
     pipeline.AddPass<ConditionalSimplifier>();
     pipeline.AddPass<RealImagExpander>();
