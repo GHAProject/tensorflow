@@ -27,7 +27,6 @@ jobs:
   rbe:
     name: Update RBE Configs
     runs-on: ubuntu-latest
-    if: github.repository == 'tensorflow/tensorflow' # Don't do this in forks
     steps:
     - name: Checkout code
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -134,8 +133,7 @@ jobs:
       with:
         title: Update the RBE images to the latest container versions
         committer: TensorFlow Release Automation <jenkins@tensorflow.org>
-        token: ${{ secrets.JENKINS_TOKEN }}
-        reviewers: mihaimaruseac,learning-to-play,nitins17
+        token: ${{ secrets.PAT_TOKEN }}
         body: |
           This PR was created by a GitHub Actions workflow to update all the SIG Build-based RBE containers to the most recent containers. See:
 
