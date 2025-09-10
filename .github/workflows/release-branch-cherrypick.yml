@@ -38,7 +38,6 @@ on:
 permissions:
   contents: write
   pull-requests: write
-  workflows: write
 
 jobs:
   cherrypick:
@@ -63,7 +62,7 @@ jobs:
       with:
         title: '${{ github.event.inputs.release_branch }} cherry-pick: ${{ steps.cherrypick.outputs.SHORTSHA }} "${{ steps.cherrypick.outputs.TITLE }}"'
         committer: TensorFlow Release Automation <jenkins@tensorflow.org>
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.PAT_TOKEN }}
         base: ${{ github.event.inputs.release_branch }}
         branch: ${{ github.event.inputs.release_branch }}-${{ steps.cherrypick.outputs.SHORTSHA }}
         reviewers: learning-to-play
