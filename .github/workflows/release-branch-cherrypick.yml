@@ -35,7 +35,10 @@ on:
         required: true
         type: string
 
-
+permissions:
+  contents: write
+  pull-requests: write
+  workflows: write
 
 jobs:
   cherrypick:
